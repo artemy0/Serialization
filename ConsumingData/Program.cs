@@ -29,21 +29,25 @@ namespace ConsumingData
                 {
                     case "1":
                     case "write object in json":
+                        //JSON object serialization using the System.Runtime.Serialization.Json namespace
                         WriteToJSON(book, "book.json");
                         break;
 
                     case "2":
                     case "read object from json":
+                        //JSON object deserialization using the System.Runtime.Serialization.Json namespace
                         ReadFromJSON(book, "book.json");
                         break;
 
                     case "3":
                     case "write object in xml":
+                        //XML object serialization using the System.Xml.Serialization namespace
                         WriteToXML(book, "book.xml");
                         break;
 
                     case "4":
                     case "read object from xml":
+                        //XML object deserialization using the System.Xml.Serialization namespace
                         ReadFormXML(book, "book.xml");
                         break;
 
@@ -97,6 +101,7 @@ namespace ConsumingData
         {
             DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(Book));
 
+            //use filestream class to write data to file. And the old file will be deleted.
             using (FileStream fs = new FileStream(PathToFile, FileMode.Create))
             {
                 jsonFormatter.WriteObject(fs, book);
@@ -110,10 +115,10 @@ namespace ConsumingData
         {
             DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(Book));
 
+            //use filestream class to read data from file. And the old file can only be opened.
             using (FileStream fs = new FileStream(PathToFile, FileMode.Open))
             {
                 book = (Book)jsonFormatter.ReadObject(fs);
-
                 Console.WriteLine("Object deserialized");
                 book.PrintInfo();
             }
@@ -121,11 +126,11 @@ namespace ConsumingData
 
         public static void WriteToXML(Book book, string PathToFile)
         {
-            XmlSerializer formatter = new XmlSerializer(typeof(Book));
+            XmlSerializer xmlFormatter = new XmlSerializer(typeof(Book));
 
             using (FileStream fs = new FileStream(PathToFile, FileMode.Create))
             {
-                formatter.Serialize(fs, book);
+                xmlFormatter.Serialize(fs, book);
                 Console.WriteLine("Object serialized");
             }
 
@@ -134,11 +139,11 @@ namespace ConsumingData
 
         public static void ReadFormXML(Book book, string PathToFile)
         {
-            XmlSerializer formatter = new XmlSerializer(typeof(Book));
+            XmlSerializer xmlFormatter = new XmlSerializer(typeof(Book));
 
             using (FileStream fs = new FileStream(PathToFile, FileMode.Open))
             {
-                book = (Book)formatter.Deserialize(fs);
+                book = (Book)xmlFormatter.Deserialize(fs);
 
                 Console.WriteLine("Object deserialized");
                 book.PrintInfo();
