@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace ConsumingData
 {
+    //Using attributes to serialize and deserialize xml and json objects.
     [Serializable]
     [DataContract]
     public class Book
     {
+        [XmlAttribute]
         [DataMember]
         public string Name { get; set; }
+        [XmlAttribute]
         [DataMember]
         public string Publisher { get; set; }
         [DataMember]
@@ -17,6 +21,20 @@ namespace ConsumingData
         public int Pages { get; set; }
         [DataMember]
         public string Description { get; set; }
+
+        [OnSerialized()]
+        internal void OnSerializedMethod(StreamingContext context)
+        {
+            Console.WriteLine("\nObject serialized");
+        }
+
+        [OnDeserialized()]
+        internal void OnDeserializedMethod(StreamingContext context)
+        {
+            Console.WriteLine("\nObject deserialized");
+        }
+
+        
 
         public Book(string name, string publisher, int theYearOfPublishing, int pages)
         {

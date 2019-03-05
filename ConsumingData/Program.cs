@@ -105,7 +105,6 @@ namespace ConsumingData
             using (FileStream fs = new FileStream(PathToFile, FileMode.Create))
             {
                 jsonFormatter.WriteObject(fs, book);
-                Console.WriteLine("Object serialized");
             }
 
             DisplayFileContents("book.json");
@@ -119,7 +118,6 @@ namespace ConsumingData
             using (FileStream fs = new FileStream(PathToFile, FileMode.Open))
             {
                 book = (Book)jsonFormatter.ReadObject(fs);
-                Console.WriteLine("Object deserialized");
                 book.PrintInfo();
             }
         }
@@ -131,7 +129,6 @@ namespace ConsumingData
             using (FileStream fs = new FileStream(PathToFile, FileMode.Create))
             {
                 xmlFormatter.Serialize(fs, book);
-                Console.WriteLine("Object serialized");
             }
 
             DisplayFileContents("book.xml");
@@ -145,7 +142,6 @@ namespace ConsumingData
             {
                 book = (Book)xmlFormatter.Deserialize(fs);
 
-                Console.WriteLine("Object deserialized");
                 book.PrintInfo();
             }
         }
